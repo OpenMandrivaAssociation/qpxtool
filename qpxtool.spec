@@ -17,6 +17,7 @@ URL:        http://qpxtool.sourceforge.net/
 Source0:    http://prdownloads.sourceforge.net/qpxtool/qpxtool-%{version}%{beta}.tar.bz2
 Patch0:     qpxtool-0.6.1rc2-fixbuild.patch
 BuildRequires:  qt3-devel
+BuildRoot:      %{_tmppath}/%{name}-%{version}
 
 %description
 QPxTool is the linux way to get full control over your CD/DVD drives.
