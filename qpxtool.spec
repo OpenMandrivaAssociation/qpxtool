@@ -1,11 +1,9 @@
 %define name    qpxtool
-%define version 0.6.1
-%define beta    rc2
-%define release %mkrel 0.%{beta}.2
+%define version 0.7.0
+%define release 1
 %define major   0.6.2
 %define libname %mklibname %{name}%{major}
 %define develname %mklibname %{name} -d 
-%define qtdir     %{_prefix}/lib/qt3
 
 Name:       %{name}
 Version:    %{version}
@@ -14,9 +12,8 @@ Summary:    CD/DVD Drive Quality Checking
 Group:      System/Configuration/Hardware
 License:    GPL
 URL:        http://qpxtool.sourceforge.net/
-Source0:    http://prdownloads.sourceforge.net/qpxtool/qpxtool-%{version}%{beta}.tar.bz2
-Patch0:     qpxtool-0.6.1rc2-fixbuild.patch
-BuildRequires:  qt3-devel
+Source0:    http://sourceforge.net/projects/qpxtool/files/qpxtool/0.7.x/0.7.0/qpxtool-%{version}.tar.bz2
+BuildRequires:  qt4-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}
 
 %description
@@ -46,30 +43,24 @@ Requires: %{libname} = %version-%release
 Development files for qpxtool.
 
 %prep
-%setup -q -n %{name}-%{version}%{beta}
-%patch0 -p1
+%setup -q
 
 %build
-export QTDIR="%{qtdir}"
-export PATH="$QTDIR/bin:$PATH"
+./configure --prefix=/usr 
 
-%make \
-	PREFIX="%{_prefix}" \
-	LIBDIR="%{_libdir}" \
-	MANDIR="%{_mandir}" \
-	CFLAGS="%{optflags} -fPIC -DQT_THREAD_SUPPORT" \
-	CXXFLAGS="%{optflags} -fPIC -DQT_THREAD_SUPPORT"
+pushd gui
+mv -vf Makefile Makefile.orig || die "Backup Makefile for install"
+qmake qpxtool.pro
+popd
+
+%make
 
 %install
 %__rm -rf %{buildroot}
-%__make \
-	PREFIX="%{_prefix}" \
-	LIBDIR="%{_libdir}" \
-	MANDIR="%{_mandir}" \
-	DESTDIR="%{buildroot}" \
-	install
+%makeinstall_std
 
-%__install -D -m0644 qpxtool-gui/img/q.xpm "%{buildroot}%{_datadir}/pixmaps/qpxtool.xpm"
+install -d -m 755 %{buildroot}%{_datadir}/applications
+install -m 644 gui/qpxtool.desktop %{buildroot}%{_datadir}/applications
 
 %clean
 %__rm -rf %{buildroot}
@@ -84,14 +75,19 @@ export PATH="$QTDIR/bin:$PATH"
 %files
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog COPYING README TODO
-%{_bindir}/deadreader
-%{_bindir}/pioquiet
-%{_bindir}/pxcontrol
-%{_bindir}/pxfw
-%{_bindir}/qpxtool
-%{_mandir}/man8/pxcontrol.8*
+%{_bindir}/qscan
+%{_bindir}/qscand
+%{_bindir}/f1tattoo
+%{_bindir}/cdvdcontrol
+%{_bindir}/readdvd
+%{_sbindir}/pxfw
 %{_mandir}/man8/pxfw.8*
-%{_datadir}/pixmaps/qpxtool.xpm
+%{_mandir}/man1/cdvdcontrol.1*
+%{_mandir}/man1/f1tattoo.1*
+%{_mandir}/man1/qscan.1*
+%{_mandir}/man1/readdvd.1*
+%{_datadir}/applications/qpxtool.desktop
+%{_libdir}/qpxtool
 
 %files -n %{libname}
 %defattr(-,root,root)
