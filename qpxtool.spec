@@ -1,6 +1,6 @@
 %define name    qpxtool
 %define version 0.7.0
-%define release %mkrel 1
+%define release %mkrel 2
 %define major   0.6.2
 %define libname %mklibname %{name}%{major}
 %define develname %mklibname %{name} -d 
@@ -59,8 +59,13 @@ popd
 %__rm -rf %{buildroot}
 %makeinstall_std
 
+install -m 755 gui/qpxtool %{buildroot}%{_bindir}
+
 install -d -m 755 %{buildroot}%{_datadir}/applications
 install -m 644 gui/qpxtool.desktop %{buildroot}%{_datadir}/applications
+
+install -d -m 755 %{buildroot}%{_datadir}/pixmaps
+install -m 644 gui/images/q.png %{buildroot}%{_datadir}/pixmaps/qpxtool.png
 
 %clean
 %__rm -rf %{buildroot}
@@ -80,6 +85,7 @@ install -m 644 gui/qpxtool.desktop %{buildroot}%{_datadir}/applications
 %{_bindir}/f1tattoo
 %{_bindir}/cdvdcontrol
 %{_bindir}/readdvd
+%{_bindir}/qpxtool
 %{_sbindir}/pxfw
 %{_mandir}/man8/pxfw.8*
 %{_mandir}/man1/cdvdcontrol.1*
@@ -87,6 +93,7 @@ install -m 644 gui/qpxtool.desktop %{buildroot}%{_datadir}/applications
 %{_mandir}/man1/qscan.1*
 %{_mandir}/man1/readdvd.1*
 %{_datadir}/applications/qpxtool.desktop
+%{_datadir}/pixmaps/qpxtool.png
 %{_libdir}/qpxtool
 
 %files -n %{libname}
