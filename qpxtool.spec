@@ -1,6 +1,7 @@
 %define name    qpxtool
-%define version 0.7.0
-%define release %mkrel 2
+%define version 0.7.1.002
+%define upstream_version 0.7.1_002
+%define release %mkrel 1
 %define major   0.6.2
 %define libname %mklibname %{name}%{major}
 %define develname %mklibname %{name} -d 
@@ -12,7 +13,7 @@ Summary:    CD/DVD Drive Quality Checking
 Group:      System/Configuration/Hardware
 License:    GPL
 URL:        http://qpxtool.sourceforge.net/
-Source0:    http://sourceforge.net/projects/qpxtool/files/qpxtool/0.7.x/0.7.0/qpxtool-%{version}.tar.bz2
+Source0:    http://sourceforge.net/projects/qpxtool/files/qpxtool/0.7.x/0.7.0/qpxtool-%{upstream_version}.tar.bz2
 BuildRequires:  qt4-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}
 
@@ -43,16 +44,10 @@ Requires: %{libname} = %version-%release
 Development files for qpxtool.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{upstream_version}
 
 %build
 ./configure --prefix=/usr 
-
-pushd gui
-mv -vf Makefile Makefile.orig || die "Backup Makefile for install"
-qmake qpxtool.pro
-popd
-
 %make
 
 %install
@@ -72,8 +67,7 @@ install -m 644 gui/images/q.png %{buildroot}%{_datadir}/pixmaps/qpxtool.png
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
+
 %postun -n %{libname} -p /sbin/ldconfig
 %endif
 
@@ -92,8 +86,11 @@ install -m 644 gui/images/q.png %{buildroot}%{_datadir}/pixmaps/qpxtool.png
 %{_mandir}/man1/f1tattoo.1*
 %{_mandir}/man1/qscan.1*
 %{_mandir}/man1/readdvd.1*
+%{_mandir}/man1/qpxtool.1*
+%{_mandir}/man1/qscand.1*
 %{_datadir}/applications/qpxtool.desktop
 %{_datadir}/pixmaps/qpxtool.png
+%{_datadir}/qpxtool
 %{_libdir}/qpxtool
 
 %files -n %{libname}
