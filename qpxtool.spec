@@ -12,7 +12,7 @@ Release:    %{release}
 Summary:    CD/DVD Drive Quality Checking
 Group:      System/Configuration/Hardware
 License:    GPL
-URL:        http://qpxtool.sourceforge.net/
+URL:        https://qpxtool.sourceforge.net/
 Source0:    http://sourceforge.net/projects/qpxtool/files/qpxtool/0.7.x/0.7.0/qpxtool-%{upstream_version}.tar.bz2
 BuildRequires:  qt4-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}
