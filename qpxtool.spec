@@ -1,7 +1,7 @@
 %define name    qpxtool
 %define version 0.7.1.002
 %define upstream_version 0.7.1_002
-%define release %mkrel 1
+%define release 2
 %define major   0.6.2
 %define libname %mklibname %{name}%{major}
 %define develname %mklibname %{name} -d 
